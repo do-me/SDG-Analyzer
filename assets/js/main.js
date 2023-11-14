@@ -348,34 +348,34 @@ function updateCosineSimilarity(queryEmbedding, sdgArray) {
   console.timeEnd("updateCosineSimilarity");
 }
 
+let isHidden = false;
+async function toggleEntries() {
+  const table = document.getElementById("results-table");
+  const tbody = table.getElementsByTagName("tbody")[0];
+  const rows = tbody.getElementsByTagName("tr");
+
+  // Toggle the visibility state
+  isHidden = !isHidden;
+
+  // Loop through all rows and hide/show based on the toggle condition
+  for (let i = 0; i < rows.length; i++) {
+  if (i >= 3 && isHidden) {
+    // If index is greater than or equal to 10 and rows are currently hidden, hide the row
+    rows[i].style.display = "none";
+  } else {
+    // Otherwise, show the row
+    rows[i].style.display = "";
+  }
+  }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
 	const toggleButton = document.getElementById('toggleButton');
-	let isHidden = false;
 
 	toggleButton.addEventListener('click', () => {
 	  toggleEntries();
 	});
 
-	function toggleEntries() {
-	  const table = document.getElementById("results-table");
-	  const tbody = table.getElementsByTagName("tbody")[0];
-	  const rows = tbody.getElementsByTagName("tr");
-
-	  // Toggle the visibility state
-	  isHidden = !isHidden;
-
-	  // Loop through all rows and hide/show based on the toggle condition
-	  for (let i = 0; i < rows.length; i++) {
-		if (i >= 10 && isHidden) {
-		  // If index is greater than or equal to 10 and rows are currently hidden, hide the row
-		  rows[i].style.display = "none";
-		} else {
-		  // Otherwise, show the row
-		  rows[i].style.display = "";
-		}
-	  }
-	}
   });
 
 
@@ -419,7 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCosineSimilarity(out.data, sdgs);
     } finally {
         $("#spinner_overlay").css("display", "none");
-        console.log(sdgs);
+        //console.log(sdgs);
 
 
     // Create an h3 element
@@ -582,10 +582,12 @@ window.addEventListener('resize', redrawChart);
     await get_embedding(messageText);
   
     // Clear the table
+    isHidden = false;
     clearTable();
 
     // Append entries in descending score order
     appendEntriesInDescendingOrder();
+    toggleEntries();
     $("#spinner_overlay").css("display","none");
 }
 
@@ -594,7 +596,6 @@ $(document).ready(() => {
         event.preventDefault();
         const this_text = `South Africa's parliament has passed a major education bill that could see parents face prison if their children are not in school.`
         updateTextarea(this_text);
-        update_table();
     });
 
     $('#buttonB').on('click', (event) => {
@@ -609,7 +610,6 @@ $(document).ready(() => {
         When at last they woke it was night, and Grethel began to cry, and said, "How shall we ever get out of this wood? "But Hansel comforted her, saying, "Wait a little while longer, until the moon rises, and then we can easily find the way home." And when the full moon got up Hansel took his little sister by the hand, and followed the way where the flint stones shone like silver, and showed them the road. They walked on the whole night through, and at the break of day they came to their father's house. They knocked at the door, and when the wife opened it and saw that it was Hansel and Grethel she said, "You naughty children, why did you sleep so long in the wood? we thought you were never coming home again!" But the father was glad, for it had gone to his heart to leave them both in the woods alone.
         Not very long after that there was again great scarcity in those parts, and the children heard their mother say at night in bed to their father, "Everything is finished up; we have only half a loaf, and after that the tale comes to an end. The children must be off; we will take them farther into the wood this time, so that they shall not be able to find the way back again; there is no other way to manage." The man felt sad at heart, and he thought, "It would better to share one's last morsel with one's children." But the wife would listen to nothing that he said, but scolded and reproached him. He who says A must say B too, and when a man has given in once he has to do it a second time.`
         updateTextarea(this_text);
-        update_table();
     });
 
     $('#buttonC').on('click', (event) => {
@@ -620,7 +620,6 @@ $(document).ready(() => {
       The Erasmus Programme, together with a number of other independent programmes, was incorporated into the Socrates programme established by the European Commission in 1994. The Socrates programme ended on 31 December 1999 and was replaced with the Socrates II programme on 24 January 2000, which in turn was replaced by the Lifelong Learning Programme 2007–2013 on 1 January 2007.
       Beside the more popular student mobility (SMS), the Erasmus+ programme promotes the teacher mobility (STA), by which university teachers can spend a short period, for a minimum of 2 teaching days and a maximum of 2 months, teaching at least 8 hours in a foreign partner university. The average and suggested stay is of 5 teaching days`
       updateTextarea(this_text);
-      update_table();
   });
 
     const updateTextarea = (text) => {

@@ -156,6 +156,21 @@ td {
 	vertical-align: middle;
 }
 
+#query_button {
+	font-family: 'Source Sans Pro', sans-serif;
+    font-size: 16pt;
+    font-weight: 300;
+    line-height: 1.75em;
+	position: relative;
+    display: inline-block;
+    border-radius: 0.35em;
+    color: #fff !important;
+    text-decoration: none;
+    padding: 0.75em 2.5em 0.75em 2.5em;
+    background-color: #8ebebc;
+    border: 0;
+    cursor: pointer;}
+
 /* Basic */
 
 	html {
